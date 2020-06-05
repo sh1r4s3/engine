@@ -1,3 +1,9 @@
+/*
+ * Author: Nikita Ermakov (coffe92@gmail.com)
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include "os/os.h"
 
 #ifdef __linux__

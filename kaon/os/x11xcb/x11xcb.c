@@ -1,3 +1,9 @@
+/*
+ * Author: Nikita Ermakov (coffe92@gmail.com)
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include "os/x11xcb/x11xcb.h"
 #include <xcb/xcb.h>
 #include <stdlib.h>

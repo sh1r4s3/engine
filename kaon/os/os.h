@@ -1,3 +1,9 @@
+/*
+ * Author: Nikita Ermakov (coffe92@gmail.com)
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #ifdef __linux__
 # define ENTRY_GOOD_RETURN_VALUE 0
 # define ENTRY_RETURN_TYPE int
