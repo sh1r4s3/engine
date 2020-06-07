@@ -2,6 +2,22 @@
  * Author: Nikita Ermakov (coffe92@gmail.com)
  *
  * SPDX-License-Identifier: MIT
+ *
+ * Description: This is a XCB back-end for the Kaon engine. It is using for
+ * communication with X11 window system. A little bit of documentation could
+ * be found at these refs [0,1,2,3]
+ *
+ * [Mon 08 Jun 2020]
+ * - Currently it is not possible to solely use XCB with OpenGL [4]. It is
+ *   still needed to use Xlib. But it is possible to use it with Vulkan and
+ *   probably something else?
+ *
+ * Refs:
+ * [0] https://xcb.freedesktop.org/manual/modules.html
+ * [1] https://xcb.freedesktop.org/PublicApi/
+ * [2] https://xcb.freedesktop.org/ProtocolStubApi/
+ * [3] https://xcb.freedesktop.org/ProtocolExtensionApi/
+ * [4] https://xcb.freedesktop.org/opengl/
  */
 
 #include "os/x11xcb/x11xcb.h"
