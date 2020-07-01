@@ -1,0 +1,23 @@
+Step 1. Beginning
+
+Create a blank window. Pressing a `q` key terminates the program.
+
+Step 2. 3D model
+
+Draw a polygons model from a some simple input file.
+
+Step 3. Controls
+
+Make control with mouse and keyboard.
+
+Step 4. Game logic
+
+Do some logic on scene. Object must moving without user interaction.
+
+Step 6. Sound
+
+Create a sound effects.
+
+Step 5. Simple 2D world
+
+Do a simple 2D world with moving objects and controls.
