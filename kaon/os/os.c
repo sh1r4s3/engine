@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "os/os.h"
+#include "os.h"
 
 #ifdef __linux__
-# include "os/x11xcb/x11xcb.h"
+# include "glxlib/glxlib.h"
 #endif
 
 static struct os_window window;

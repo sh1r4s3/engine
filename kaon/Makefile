@@ -6,13 +6,11 @@ export TOPSRCDIR = $(PWD)
 export OUTDIR = $(TOPSRCDIR)/libs
 
 all: libos.so
-	$(CC) -Llibs/ -I. -los -lx11xcb main.c -o kaon
+	$(CC) -Llibs/ -I. main.c -los -o kaon
 
-libos.so: libx11xcb.so
+libos.so:
 	$(MAKE) -C os/ -f os.mk
-
-libx11xcb.so:
-	$(MAKE) -C os/x11xcb/ -f x11xcb.mk
 
 clean:
 	rm -vrf libs/ kaon
+	$(MAKE) -C os/ -f os.mk clean

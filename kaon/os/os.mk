@@ -1,3 +1,9 @@
-libos.so:
+SRC := os.c glxlib/glxlib.c
+CFLAGS := -fpic
+
+libos.so: $(SRC:.c=.o)
 	mkdir -p $(OUTDIR)
-	$(CC) -I$(TOPSRCDIR) -L$(OUTDIR) -lx11xcb -shared -fPIC  -o $(OUTDIR)/$@ os.c
+	$(CC) -shared -o $(OUTDIR)/$@ $^ -I$(TOPSRCDIR) -L$(OUTDIR) -lX11 -lGL -lGLU
+
+clean:
+	rm -vf os.o glxlib/glxlib.o
