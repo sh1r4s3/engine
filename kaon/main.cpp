@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "os/os.h"
+#include "os/os.hpp"
 
 int main(int argc, char **argv)
 {
-    os_create_window("kaon", 800, 600);
-    os_loop();
-    os_kill_window();
-    return 0;
+  {
+    Os os(800, 600, "kaon");
+    os.Loop();
+  }
+
+  return 0;
 }
