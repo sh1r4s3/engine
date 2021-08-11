@@ -11,9 +11,10 @@
  * [0] https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#Introduction_to_Xlib
  */
 
-#include "glxlib.hpp"
+#include "xlib.hpp"
+#include <X11/X.h>
 
-WindowSystem::WindowSystem(int width, int height, const char *name) :
+WndSysBackend::WndSysBackend(int width, int height, const char *name) :
   mWidth(width), mHeight(height), mName(name) {
 
   // Connect to the X server. We're using a DISPLAY environment
@@ -47,46 +48,47 @@ WindowSystem::WindowSystem(int width, int height, const char *name) :
   XMapWindow(mDisplay, mWnd);
   XStoreName(mDisplay, mWnd, "K engine");
 
+#ifdef K_GL_RNDR
   mGlc = glXCreateContext(mDisplay, mVisInfo, nullptr, GL_TRUE);
   glXMakeCurrent(mDisplay, mWnd, mGlc);
-  glEnable(GL_DEPTH_TEST);
+#endif
+
+  // Fill the events hash table, except two events, for now
+  for (auto&& ev : mEvents) {
+    ev = WndSysEvents::empty;
+  }
+  SetEvent(KeyPress, WndSysEvents::keyPress);
+  SetEvent(KeyPress, WndSysEvents::draw);
 }
 
-WindowSystem::~WindowSystem() {
+WndSysBackend::~WndSysBackend() {
+#ifdef K_GL_RNDR
   glXMakeCurrent(mDisplay, None, nullptr);
   glXDestroyContext(mDisplay, mGlc);
+#endif
   XDestroyWindow(mDisplay, mWnd);
   XCloseDisplay(mDisplay);
 }
 
-void WindowSystem::DrawQuad() {
- glClearColor(1.0, 1.0, 1.0, 1.0);
- glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
- glMatrixMode(GL_PROJECTION);
- glLoadIdentity();
- glOrtho(-1., 1., -1., 1., 1., 20.);
-
- glMatrixMode(GL_MODELVIEW);
- glLoadIdentity();
- gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
-
- glBegin(GL_QUADS);
-  glColor3f(1., 0., 0.); glVertex3f(-.75, -.75, 0.);
-  glColor3f(0., 1., 0.); glVertex3f( .75, -.75, 0.);
-  glColor3f(0., 0., 1.); glVertex3f( .75,  .75, 0.);
-  glColor3f(1., 1., 0.); glVertex3f(-.75,  .75, 0.);
-  glEnd();
+void WndSysBackend::SetEvent(int xevent, WndSysEvents::event event) {
+  
 }
 
-void WindowSystem::RefreshWindow() {
+WndSysEvets::events WndSysBackend::GetEvent() {
+  XNextEvent(mDisplay, &mXev);
+  
+}
+
+void WndSysBackend::RefreshWindow() {
   while (1) {
     XNextEvent(mDisplay, &mXev);
     if (mXev.type == Expose) {
       XGetWindowAttributes(mDisplay, mWnd, &mGwa);
-      glViewport(0, 0, mGwa.width, mGwa.height);
+      
       DrawQuad();
+#ifdef K_GL_RNDR
       glXSwapBuffers(mDisplay, mWnd);
+#endif
     }
 
     else if(mXev.type == KeyPress) {
@@ -95,6 +97,6 @@ void WindowSystem::RefreshWindow() {
   }
 }
 
-bool WindowSystem::IsWindowOk() {
+bool WndSysBackend::IsWindowOk() {
   return mDisplay != nullptr;
 }

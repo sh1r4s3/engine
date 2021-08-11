@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 
+#include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
-#include <GL/glu.h>
+#include "../events.hpp"
 
-class WindowSystem {
+class WndSysBackend {
 private:
   Display *mDisplay;
   Window mRootWnd;
@@ -19,22 +20,18 @@ private:
   GLXContext mGlc;
   XWindowAttributes mGwa;
   XEvent mXev;
+  // Please refer to the /usr/include/X11/X.h
+  static constexpr int mNevents = LASTEvent - KeyPress;
+  WndSysEvents::event mEvents[mNevents];
 
-  void DrawQuad();
+  void SetEvent(int xevent, WndSysEvents::event event);
 protected:
   int mWidth, mHeight;
   const char *mName;
 
-  WindowSystem(int width, int height, const char *name);
-  ~WindowSystem();
-
+  WndSysBackend(int width, int height, const char *name);
+  ~WndSysBackend();
 public:
-  void RefreshWindow();
+  WndSysEvents::event GetEvent();
   bool IsWindowOk();
 };
-
-int create_window(int width, int height);
-
-void loop();
-
-int kill_window();

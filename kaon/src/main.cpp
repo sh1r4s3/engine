@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "os/os.hpp"
+#include "wndsys/wndsys.hpp"
 
 int main(int argc, char **argv)
 {
   {
-    Os os(800, 600, "kaon");
-    os.Loop();
+    WndSys wndsys(800, 600, "kaon");
+    while (1) {
+      WndSysEvets::events ev = wndsys.GetEvent();
+    }
   }
 
   return 0;
