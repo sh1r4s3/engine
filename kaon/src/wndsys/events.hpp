@@ -1,3 +1,6 @@
+#ifndef __K_EVENTS_H
+#define __K_EVENTS_H
+
 #include <functional>
 
 namespace WndSysEvents {
@@ -33,3 +36,5 @@ namespace WndSysEvents {
     }
   };
 }
+
+#endif
