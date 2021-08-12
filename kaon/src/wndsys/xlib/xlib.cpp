@@ -14,8 +14,13 @@
 #include "xlib.hpp"
 #include <X11/X.h>
 
-WndSysBackend::WndSysBackend(int width, int height, const char *name) :
-  mWidth(width), mHeight(height), mName(name) {
+WndSysBackend::WndSysBackend(int width, int height, const char *name)
+    : mWidth(width), mHeight(height), mName(name),
+      /*
+       * The first event number in the list of events from X11/X.h is KeyPress
+       * The last event number in the list is LASTevent
+       */
+      mEvHashTbl(LASTEvent - KeyPress, [](const int& e) { return e - KeyPress + 1; } ) {
 
   // Connect to the X server. We're using a DISPLAY environment
   // variable here, so set the first argument to NULL.
@@ -53,12 +58,8 @@ WndSysBackend::WndSysBackend(int width, int height, const char *name) :
   glXMakeCurrent(mDisplay, mWnd, mGlc);
 #endif
 
-  // Fill the events hash table, except two events, for now
-  for (auto&& ev : mEvents) {
-    ev = WndSysEvents::empty;
-  }
-  SetEvent(KeyPress, WndSysEvents::keyPress);
-  SetEvent(KeyPress, WndSysEvents::draw);
+  mEvHashTbl[KeyPress] = WndSysEvents::keyPress;
+  mEvHashTbl[Expose] = WndSysEvents::draw;
 }
 
 WndSysBackend::~WndSysBackend() {
@@ -70,31 +71,20 @@ WndSysBackend::~WndSysBackend() {
   XCloseDisplay(mDisplay);
 }
 
-void WndSysBackend::SetEvent(int xevent, WndSysEvents::event event) {
-  
-}
-
-WndSysEvets::events WndSysBackend::GetEvent() {
+WndSysEvents::event WndSysBackend::GetEvent() {
   XNextEvent(mDisplay, &mXev);
-  
+
+  if (mXev.type == Expose) {
+    XGetWindowAttributes(mDisplay, mWnd, &mGwa);
+  }
+
+  return mEvHashTbl[mXev.type];
 }
 
 void WndSysBackend::RefreshWindow() {
-  while (1) {
-    XNextEvent(mDisplay, &mXev);
-    if (mXev.type == Expose) {
-      XGetWindowAttributes(mDisplay, mWnd, &mGwa);
-      
-      DrawQuad();
 #ifdef K_GL_RNDR
-      glXSwapBuffers(mDisplay, mWnd);
+  glXSwapBuffers(mDisplay, mWnd);
 #endif
-    }
-
-    else if(mXev.type == KeyPress) {
-      return;
-    }
-  }
 }
 
 bool WndSysBackend::IsWindowOk() {

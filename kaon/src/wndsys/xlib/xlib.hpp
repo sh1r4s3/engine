@@ -6,7 +6,9 @@
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
-#include <GL/glx.h>
+#ifdef K_GL_RNDR
+#  include <GL/glx.h>
+#endif
 #include "../events.hpp"
 
 class WndSysBackend {
@@ -22,7 +24,7 @@ private:
   XEvent mXev;
   // Please refer to the /usr/include/X11/X.h
   static constexpr int mNevents = LASTEvent - KeyPress;
-  WndSysEvents::event mEvents[mNevents];
+  WndSysEvents::HashEvent<int> mEvHashTbl;
 
   void SetEvent(int xevent, WndSysEvents::event event);
 protected:
@@ -31,6 +33,8 @@ protected:
 
   WndSysBackend(int width, int height, const char *name);
   ~WndSysBackend();
+
+  void RefreshWindow();
 public:
   WndSysEvents::event GetEvent();
   bool IsWindowOk();
