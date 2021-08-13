@@ -7,10 +7,11 @@
 #include "wndsys.hpp"
 
 WndSys::WndSys(int width, int height, const char *name)
-  : WndSysBackend(width, height, name) {
+  : WndSysBackend(width, height, name), Render(width, height) {
 
 }
 
 void WndSys::Draw() {
+  Compute();
   RefreshWindow();
 }

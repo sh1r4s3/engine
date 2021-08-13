@@ -7,9 +7,9 @@
 #ifdef __linux__
 #  include "xlib/xlib.hpp"
 #endif
-#include "events.hpp"
+#include "render/render.hpp"
 
-class WndSys : public WndSysBackend {
+class WndSys : public WndSysBackend, public Render {
 public:
   WndSys(int width, int height, const char *name);
   void Draw();
