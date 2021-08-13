@@ -1,7 +1,7 @@
 #include "RenderBackend.hpp"
 
 RenderBackend::RenderBackend(int width, int height)
-  : mRatio((float)width/height) {
+  : mWidth(width), mHeight(height), mRatio((float)width/height) {
 
   glEnable(GL_DEPTH_TEST);
   glViewport(0, 0, width, height);

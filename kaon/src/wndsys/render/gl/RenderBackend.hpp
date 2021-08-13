@@ -2,8 +2,8 @@
 
 class RenderBackend {
 protected:
-  int width;
-  int height;
+  int mWidth;
+  int mHeight;
   float mRatio;
 public:
   RenderBackend(int width, int height);
