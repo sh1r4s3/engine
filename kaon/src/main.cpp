@@ -8,10 +8,19 @@
 
 int main(int argc, char **argv)
 {
+  bool run = true;
   {
     WndSys wndsys(800, 600, "kaon");
-    while (1) {
-      WndSysEvets::events ev = wndsys.GetEvent();
+    while (run) {
+      WndSysEvents::event ev = wndsys.GetEvent();
+      switch (ev) {
+      case WndSysEvents::draw:
+        wndsys.Draw();
+        break;
+      case WndSysEvents::keyPress:
+        run = true;
+        break;
+      }
     }
   }
 
