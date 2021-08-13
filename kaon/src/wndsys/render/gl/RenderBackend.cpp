@@ -1,6 +1,8 @@
 #include "RenderBackend.hpp"
 
-RenderBackend::RenderBackend(int width, int height) {
+RenderBackend::RenderBackend(int width, int height)
+  : mRatio((float)width/height) {
+
   glEnable(GL_DEPTH_TEST);
   glViewport(0, 0, width, height);
 }
@@ -11,7 +13,7 @@ void RenderBackend::Compute() {
 
  glMatrixMode(GL_PROJECTION);
  glLoadIdentity();
- glOrtho(-1., 1., -1., 1., 1., 20.);
+ glOrtho(-mRatio, mRatio, -1, 1., 1., 20.);
 
  glMatrixMode(GL_MODELVIEW);
  glLoadIdentity();
