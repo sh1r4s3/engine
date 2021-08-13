@@ -18,7 +18,7 @@ int main(int argc, char **argv)
         wndsys.Draw();
         break;
       case WndSysEvents::keyPress:
-        run = true;
+        run = false;
         break;
       }
     }
