@@ -43,7 +43,7 @@ WndSysBackend::WndSysBackend(int width, int height, const char *name)
   mWnd = XCreateWindow(mDisplay,
                       mRootWnd,
                       0, 0,             // (x, y) position of the window
-                      600, 600,         // width and height of the window
+                      width, height,    // width and height of the window
                       0,                // border width
                       mVisInfo->depth,
                       InputOutput,
