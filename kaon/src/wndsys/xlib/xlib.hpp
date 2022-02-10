@@ -1,4 +1,6 @@
 /*
+ * vim:sw=2:et:ts=2
+ *
  * Author: Nikita Ermakov <sh1r4s3@mail.si-head.nl>
  *
  * SPDX-License-Identifier: MIT
@@ -6,9 +8,7 @@
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
-#ifdef K_GL_RNDR
-#  include <GL/glx.h>
-#endif
+#include <GL/glx.h>
 #include "../events.hpp"
 
 class WndSysBackend {

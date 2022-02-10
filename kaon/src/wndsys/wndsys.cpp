@@ -1,4 +1,6 @@
 /*
+ * vim:sw=2:et:ts=2
+ *
  * Author: Nikita Ermakov <sh1r4s3@mail.si-head.nl>
  *
  * SPDX-License-Identifier: MIT

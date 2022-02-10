@@ -1,7 +1,4 @@
-
-#ifdef K_GL_RNDR
-# include "gl/RenderBackend.hpp"
-#endif
+#include "gl/RenderBackend.hpp"
 
 class Render : public RenderBackend {
 public:

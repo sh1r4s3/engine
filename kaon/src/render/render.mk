@@ -1,7 +1,7 @@
-SRC := wndsys.cpp xlib/xlib.cpp
+SRC := render.cpp gl/RenderBackend.cpp
 OBJ := $(SRC:.cpp=.o)
-CPPFLAGS := -I$(TOPSRCDIR)/src
-TARGET := libwndsys.a
+CPPFLAGS := -I$(TOPSRCDIR)
+TARGET := librender.a
 
 ${TARGET}: ${OBJ}
 	mkdir -p $(OBJDIR)
