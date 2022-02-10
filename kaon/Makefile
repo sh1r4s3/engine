@@ -3,15 +3,15 @@
 
 export CC = g++
 export TOPSRCDIR = $(PWD)
-export OUTDIR = $(TOPSRCDIR)/libs
+export OUTDIR = $(TOPSRCDIR)/objs
 export CPPFLAGS = -DK_GL_RNDR
 
-all: libwndsys.so
-	$(CC) $(CPPFLAGS) -Llibs/ -I. src/main.cpp -lwndsys -o kaon
+all: wndsys
+	$(CC) $(CPPFLAGS) -Llibs/ -I. src/main.cpp objs/libwndsys.a -o kaon -lX11 -lGL -lGLU
 
-libwndsys.so:
+wndsys:
 	$(MAKE) -C src/wndsys/ -f wndsys.mk
 
 clean:
-	rm -vrf libs/ kaon
+	rm -vrf kaon objs
 	$(MAKE) -C src/wndsys/ -f wndsys.mk clean

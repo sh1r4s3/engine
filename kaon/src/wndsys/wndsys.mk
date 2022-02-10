@@ -1,9 +1,11 @@
 SRC := wndsys.cpp xlib/xlib.cpp render/render.cpp render/gl/RenderBackend.cpp
-CXXFLAGS := -fpic
+OBJ := $(SRC:.cpp=.o)
+CPPFLAGS := -I$(TOPSRCDIR)
 
-libwndsys.so: $(SRC:.cpp=.o)
+wndsys.o: ${OBJ}
 	mkdir -p $(OUTDIR)
-	$(CC) -shared $(CXXFLAGS) -o $(OUTDIR)/$@ $^ -I$(TOPSRCDIR) -L$(OUTDIR) -lX11 -lGL -lGLU
+	ar ru $(OUTDIR)/libwndsys.a $(OBJ)
+	ranlib $(OUTDIR)/libwndsys.a
 
 clean:
 	find . -name "*.o" -delete
