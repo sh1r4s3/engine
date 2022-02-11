@@ -9,7 +9,7 @@ TARGETS := libwndsys.a librender.a
 LIBS := -lX11 -lGL -lGLU
 
 all: $(TARGETS)
-	$(CC) $(CPPFLAGS) -Isrc src/main.cpp $(patsubst %,objs/%,$^) -o kaon $(LIBS)
+	$(CC) $(CPPFLAGS) -Isrc src/linux/main.cpp $(patsubst %,objs/%,$^) -o kaon $(LIBS)
 
 %.a:
 	$(MAKE) -C src/$(patsubst lib%.a,%,$@)/ -f $(patsubst lib%.a,%.mk,$@)
