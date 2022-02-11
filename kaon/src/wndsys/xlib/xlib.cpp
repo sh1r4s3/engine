@@ -1,4 +1,6 @@
 /*
+ * vim:sw=2:et:ts=2
+ *
  * Author: Nikita Ermakov <sh1r4s3@mail.si-head.nl>
  *
  * SPDX-License-Identifier: MIT
@@ -53,20 +55,19 @@ WndSysBackend::WndSysBackend(int width, int height, const char *name)
   XMapWindow(mDisplay, mWnd);
   XStoreName(mDisplay, mWnd, "K engine");
 
-#ifdef K_GL_RNDR
+  // OpenGL stuff
   mGlc = glXCreateContext(mDisplay, mVisInfo, nullptr, GL_TRUE);
   glXMakeCurrent(mDisplay, mWnd, mGlc);
-#endif
 
   mEvHashTbl[KeyPress] = WndSysEvents::keyPress;
   mEvHashTbl[Expose] = WndSysEvents::draw;
 }
 
 WndSysBackend::~WndSysBackend() {
-#ifdef K_GL_RNDR
+  // OpenGL stuff
   glXMakeCurrent(mDisplay, None, nullptr);
   glXDestroyContext(mDisplay, mGlc);
-#endif
+
   XDestroyWindow(mDisplay, mWnd);
   XCloseDisplay(mDisplay);
 }
@@ -82,9 +83,8 @@ WndSysEvents::event WndSysBackend::GetEvent() {
 }
 
 void WndSysBackend::RefreshWindow() {
-#ifdef K_GL_RNDR
+  // OpenGL stuff
   glXSwapBuffers(mDisplay, mWnd);
-#endif
 }
 
 bool WndSysBackend::IsWindowOk() {
